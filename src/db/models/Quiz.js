@@ -1,11 +1,25 @@
 import { Schema, model } from 'mongoose';
 
-// Основная схема для викторины
-const QuizSchema = new Schema({
-  id: {
-    type: Number,
-    required: true,
+const QuestionSchema = new Schema(
+  {
+    type: {
+      type: String,
+      required: true,
+    },
+    text: {
+      type: String,
+      required: true,
+    },
+    options: [String], // Оптимизировано
+    completions: {
+      type: Number,
+      default: 0,
+    },
   },
+  { _id: false }, // ✅ Отключаем _id внутри questions
+);
+
+const QuizSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -14,27 +28,7 @@ const QuizSchema = new Schema({
     type: String,
     required: true,
   },
-  questions: [
-    {
-      type: {
-        type: String,
-        required: true,
-      },
-      text: {
-        type: String,
-        required: true,
-      },
-      options: [
-        {
-          type: String,
-        },
-      ], // Только если есть опции (для single или multiple)
-      completions: {
-        type: Number,
-        default: 0,
-      },
-    },
-  ],
+  questions: [QuestionSchema], // Используем вложенную схему
 });
 
 const Quiz = model('catalogs', QuizSchema);
