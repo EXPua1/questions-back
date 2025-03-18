@@ -25,3 +25,12 @@ export const deleteQuiz = async (id) => {
   return await Quiz.findByIdAndDelete(id);
 };
  
+export const completedQuiz = async (id) => { 
+  const quiz = await Quiz.findByIdAndUpdate(
+    { _id: id },
+    { $inc: { completions: 1 } },
+    { new: true, runValidators: true }
+  )
+
+  return quiz
+}

@@ -11,11 +11,7 @@ const QuestionSchema = new Schema(
       type: String,
       required: true,
     },
-    options: [String], // Оптимизировано
-    completions: {
-      type: Number,
-      default: 0,
-    },
+    options: [String], 
   },
   { _id: false },
 );
@@ -29,7 +25,11 @@ const QuizSchema = new Schema({
     type: String,
     required: true,
   },
-  questions: [QuestionSchema], // Используем вложенную схему
+  questions: [QuestionSchema], 
+  completions: {
+    type: Number,
+    default: 0, 
+  },
 });
 
 const Quiz = model('catalogs', QuizSchema);

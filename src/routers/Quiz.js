@@ -2,6 +2,7 @@ import Router from 'express';
 
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
+  completedQuizController,
   createQuizController,
   deleteQuizController,
   getQuizByIdController,
@@ -17,7 +18,7 @@ quizRouter.get('/quizzes/:id',isValidId, ctrlWrapper(getQuizByIdController));
 quizRouter.post('/quizzes', ctrlWrapper(createQuizController));
 quizRouter.put('/quizzes/:id', isValidId, ctrlWrapper(updateQuizController));
 quizRouter.delete('/quizzes/:id', isValidId, ctrlWrapper(deleteQuizController));
-
+quizRouter.post('/quizzes/:id/complete', isValidId, ctrlWrapper(completedQuizController));
 
 
 export default quizRouter;

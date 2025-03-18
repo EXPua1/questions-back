@@ -4,6 +4,7 @@ import {
   createQuiz,
   updateQuiz,
   deleteQuiz,
+  completedQuiz,
 } from '../services/Quiz.js';
 
 export const getQuizesController = async (req, res) => {
@@ -60,6 +61,17 @@ export const deleteQuizController = async (req, res) => {
   const { id } = req.params;
 
   const data = await deleteQuiz(id);
+
+  return res.status(200).json({
+    status: 200,
+    data,
+  })
+};
+
+export const completedQuizController = async (req, res) => {
+  const { id } = req.params;
+
+  const data = await completedQuiz(id);
 
   return res.status(200).json({
     status: 200,
