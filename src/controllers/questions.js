@@ -1,4 +1,10 @@
-import { getQuizById, getQuizzes } from '../services/Quiz.js';
+import {
+  getQuizById,
+  getQuizzes,
+  createQuiz,
+  updateQuiz,
+  deleteQuiz,
+} from '../services/Quiz.js';
 
 export const getQuizesController = async (req, res) => {
   const data = await getQuizzes();
@@ -11,6 +17,7 @@ export const getQuizesController = async (req, res) => {
 
 export const getQuizByIdController = async (req, res) => {
   const { id } = req.params;
+  console.log(id);
   const quiz = await getQuizById(id); // Предполагаем, что возвращается объект, а не массив
 
   if (!quiz) {
@@ -25,4 +32,37 @@ export const getQuizByIdController = async (req, res) => {
     data: quiz, // Возвращаем объект напрямую, а не массив
     message: 'success',
   });
+};
+
+export const createQuizController = async (req, res) => {
+  const data = await createQuiz(req.body);
+
+  return res.status(201).json({
+    status: 201,
+    data,
+    message: 'success',
+  });
+};
+
+export const updateQuizController = async (req, res) => {
+  const { id } = req.params;
+
+  const data = await updateQuiz(id, req.body);
+
+  return res.status(200).json({
+    status: 200,
+    data,
+    message: 'successfully updated',
+  });
+};
+
+export const deleteQuizController = async (req, res) => {
+  const { id } = req.params;
+
+  const data = await deleteQuiz(id);
+
+  return res.status(200).json({
+    status: 200,
+    data,
+  })
 };

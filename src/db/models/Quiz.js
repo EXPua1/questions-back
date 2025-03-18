@@ -5,6 +5,7 @@ const QuestionSchema = new Schema(
     type: {
       type: String,
       required: true,
+      enum: ['text', 'single', 'multiple'],
     },
     text: {
       type: String,
@@ -16,7 +17,7 @@ const QuestionSchema = new Schema(
       default: 0,
     },
   },
-  { _id: false }, // ✅ Отключаем _id внутри questions
+  { _id: false },
 );
 
 const QuizSchema = new Schema({
