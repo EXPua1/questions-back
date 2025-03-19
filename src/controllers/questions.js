@@ -16,7 +16,7 @@ export const getQuizesController = async (req, res) => {
 
   const data = await getQuizzes({
     page,
-    perPage:5,
+    perPage,
     sortBy,
     sortOrder,
     // filter,

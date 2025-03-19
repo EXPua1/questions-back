@@ -5,7 +5,7 @@ export const getQuizzes = async ({
   page = 1,
   perPage = 1,
   sortBy = '_id',
-  sortOrder = 'asc',
+  sortOrder = 'desc',
   // filter = {},
 }) => {
   const limit = perPage;
@@ -16,7 +16,8 @@ export const getQuizzes = async ({
   const quizezz = await quizezzQuery
     .skip(skip)
     .limit(limit)
-    .sort({ [sortBy]: sortOrder });
+    .sort({ [sortBy]: sortOrder })
+    .collation({ locale: 'en', strength: 2 });
 
   const paginationData = calculatePaginationData(quizezzCount, perPage, page);
 
