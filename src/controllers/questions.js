@@ -12,30 +12,26 @@ import { parseSortParams } from '../utils/parseSortParams.js';
 
 export const getQuizesController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
-  const { sortBy, sortOrder } = parseSortParams(req.query, sortByList)
-
-
-
-
+  const { sortBy, sortOrder } = parseSortParams(req.query, sortByList);
 
   const data = await getQuizzes({
     page,
-    perPage,
+    perPage:5,
     sortBy,
     sortOrder,
     // filter,
   });
 
   if (data.data.length === 0) {
-  res.status(404).json({
-    status: 404,
-    message: 'Quizes not found',
-  })
-}
+    res.status(404).json({
+      status: 404,
+      message: 'Quizes not found',
+    });
+  }
 
   return res.status(200).json({
     status: 200,
-    data,
+    data: data,
     message: 'success',
   });
 };
@@ -43,7 +39,7 @@ export const getQuizesController = async (req, res) => {
 export const getQuizByIdController = async (req, res) => {
   const { id } = req.params;
   console.log(id);
-  const quiz = await getQuizById(id); // Предполагаем, что возвращается объект, а не массив
+  const quiz = await getQuizById(id);
 
   if (!quiz) {
     return res.status(404).json({
@@ -54,7 +50,7 @@ export const getQuizByIdController = async (req, res) => {
 
   return res.status(200).json({
     status: 200,
-    data: quiz, // Возвращаем объект напрямую, а не массив
+    data: quiz,
     message: 'success',
   });
 };
@@ -89,7 +85,7 @@ export const deleteQuizController = async (req, res) => {
   return res.status(200).json({
     status: 200,
     data,
-  })
+  });
 };
 
 export const completedQuizController = async (req, res) => {
@@ -100,5 +96,5 @@ export const completedQuizController = async (req, res) => {
   return res.status(200).json({
     status: 200,
     data,
-  })
+  });
 };

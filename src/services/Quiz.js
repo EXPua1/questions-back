@@ -3,7 +3,7 @@ import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
 export const getQuizzes = async ({
   page = 1,
-  perPage = 2,
+  perPage = 1,
   sortBy = '_id',
   sortOrder = 'asc',
   // filter = {},
