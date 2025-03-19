@@ -1,3 +1,4 @@
+import { sortByList } from '../db/models/Quiz.js';
 import {
   getQuizById,
   getQuizzes,
@@ -6,9 +7,32 @@ import {
   deleteQuiz,
   completedQuiz,
 } from '../services/Quiz.js';
+import { parsePaginationParams } from '../utils/parsePaginationParams.js';
+import { parseSortParams } from '../utils/parseSortParams.js';
 
 export const getQuizesController = async (req, res) => {
-  const data = await getQuizzes();
+  const { page, perPage } = parsePaginationParams(req.query);
+  const { sortBy, sortOrder } = parseSortParams(req.query, sortByList)
+
+
+
+
+
+  const data = await getQuizzes({
+    page,
+    perPage,
+    sortBy,
+    sortOrder,
+    // filter,
+  });
+
+  if (data.data.length === 0) {
+  res.status(404).json({
+    status: 404,
+    message: 'Quizes not found',
+  })
+}
+
   return res.status(200).json({
     status: 200,
     data,

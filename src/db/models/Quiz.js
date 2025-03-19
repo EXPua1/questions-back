@@ -11,7 +11,7 @@ const QuestionSchema = new Schema(
       type: String,
       required: true,
     },
-    options: [String], 
+    options: [String],
   },
   { _id: false },
 );
@@ -25,12 +25,20 @@ const QuizSchema = new Schema({
     type: String,
     required: true,
   },
-  questions: [QuestionSchema], 
+  questions: [QuestionSchema],
   completions: {
     type: Number,
-    default: 0, 
+    default: 0,
   },
 });
+
+
+
+export const sortByList = [
+  '_id',
+  'name',
+  'completions',
+]
 
 const Quiz = model('catalogs', QuizSchema);
 
