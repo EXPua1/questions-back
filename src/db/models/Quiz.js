@@ -32,13 +32,7 @@ const QuizSchema = new Schema({
   },
 });
 
-
-
-export const sortByList = [
-  '_id',
-  'name',
-  'completions',
-]
+export const sortByList = ['_id', 'name', 'completions', 'questions'];
 
 const Quiz = model('catalogs', QuizSchema);
 

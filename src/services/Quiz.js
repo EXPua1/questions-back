@@ -10,15 +10,42 @@ export const getQuizzes = async ({
 }) => {
   const limit = perPage;
   const skip = (page - 1) * perPage;
-  const quizezzQuery = Quiz.find();
 
-  const quizezzCount = await Quiz.find().merge(quizezzQuery).countDocuments();
-  const quizezz = await quizezzQuery
-    .skip(skip)
-    .limit(limit)
-    .sort({ [sortBy]: sortOrder })
-    .collation({ locale: 'en', strength: 2 });
+  
+  const sortFieldsMap = {
+    _id: '_id',
+    name: 'name',
+    completions: 'completions',
+    questions: 'questions', 
+  };
 
+  const normalizedSortBy = sortFieldsMap[sortBy] || '_id';
+  const sortDirection = sortOrder === 'asc' ? 1 : -1;
+
+  let quizezz;
+  if (sortBy === 'questions') {
+   
+    quizezz = await Quiz.aggregate([
+      {
+        $addFields: {
+          questionsLength: { $size: { $ifNull: ['$questions', []] } }, 
+        },
+      },
+      { $sort: { questionsLength: sortDirection } },
+      { $skip: skip },
+      { $limit: limit },
+      { $project: { questionsLength: 0 } }, 
+    ]);
+  } else {
+    
+    quizezz = await Quiz.find()
+      .skip(skip)
+      .limit(limit)
+      .sort({ [normalizedSortBy]: sortOrder })
+      .collation({ locale: 'en', strength: 2 });
+  }
+
+  const quizezzCount = await Quiz.countDocuments();
   const paginationData = calculatePaginationData(quizezzCount, perPage, page);
 
   return {
